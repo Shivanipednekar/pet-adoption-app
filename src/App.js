@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import NewUser from './components/NewUser';
 import ExistingUser from './components/ExistingUser';
+import AdoptionList from './components/AdoptionList';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<NewUser />} />
         <Route path="/login" element={<ExistingUser />} />
+         <Route path="/pets" element={<AdoptionList />} />
       </Routes>
     </Router>
   );

@@ -1,0 +1,58 @@
+.adoption-list {
+  padding: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #fce3cd, #f8e2c8);
+  min-height: 100vh;
+}
+
+.adoption-list h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.pet-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+.pet-card {
+  background: #fff;
+  padding: 20px;
+  width: 250px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.pet-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.pet-card h3 {
+  margin: 15px 0 10px;
+}
+
+.pet-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.pet-card button {
+  background-color: #ff7b54;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pet-card button:hover {
+  background-color: #ff5722;
+}
