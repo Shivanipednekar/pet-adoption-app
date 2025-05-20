@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<NewUser />} />
         <Route path="/login" element={<ExistingUser />} />
-         <Route path="/pets" element={<AdoptionList />} />
+      <Route path="/adoption-list" element={<AdoptionList />} />
       </Routes>
     </Router>
   );
