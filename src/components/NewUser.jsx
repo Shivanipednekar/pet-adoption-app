@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../styles/NewUser.css";
+import React, { useState } from 'react';
+import '../styles/NewUser.css';  // make sure path & filename are correct
+import { useNavigate } from 'react-router-dom';
 
 const NewUser = () => {
   const navigate = useNavigate();
@@ -9,17 +9,14 @@ const NewUser = () => {
     name: "",
     email: "",
     password: "",
-    role: ""
+    role: "Looking to Adopt" // or default user_type
   });
 
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -29,95 +26,76 @@ const NewUser = () => {
     try {
       const response = await fetch("http://localhost:5000/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessage("✅ User registered successfully!");
-        setFormData({
-          name: "",
-          email: "",
-          password: "",
-          role: ""
-        });
-
-        // Redirect to AdoptionList page
-        navigate("/adoption-list");
+        setMessage("✅ Registration successful!");
+        navigate("/adoption-list"); // or wherever you want
       } else {
-        setMessage(`❌ ${data.error || "Something went wrong."}`);
+        setMessage(`❌ ${data.error || "Registration failed"}`);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Registration error:", error);
       setMessage("❌ Server error. Please try again.");
     }
   };
 
   return (
-    <div style={{ maxWidth: "500px", margin: "0 auto", padding: "20px" }}>
-      <h2>Create New User</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Full Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+    <div className="new-user-container">
+      <h2>Register New User</h2>
+      <form className="new-user-form" onSubmit={handleSubmit}>
 
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
 
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
 
-        <div>
-          <label>Role:</label>
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Role</option>
-            <option value="Looking to Adopt">Looking to Adopt</option>
-            <option value="Giving for Adoption">Giving for Adoption</option>
-          </select>
-        </div>
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+
+        <label htmlFor="role">User Type</label>
+        <select
+          id="role"
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          required
+        >
+          <option value="Looking to Adopt">Looking to Adopt</option>
+          <option value="Giving for Adoption">Giving for Adoption</option>
+        </select>
 
         <button type="submit">Register</button>
       </form>
 
       {message && (
-        <p
-          style={{
-            marginTop: "10px",
-            color: message.startsWith("❌") ? "red" : "green"
-          }}
-        >
+        <p className="message" style={{ color: message.startsWith('❌') ? 'red' : 'green' }}>
           {message}
         </p>
       )}

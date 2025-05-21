@@ -10,6 +10,7 @@ CREATE TABLE pets (
   available BOOLEAN DEFAULT true
 );
 
+select * from users;
 select * from pets;
 INSERT INTO pets (name, species, breed, age) VALUES
 ('Milo', 'Dog', 'Beagle', 3),
@@ -20,3 +21,6 @@ select * from pets;
 
 INSERT INTO users (name, email, password, user_type) VALUES
 ('Test User', 'test@example.com', 'password123', 'Looking to Adopt');
+
+select * from pets;
+explain users;

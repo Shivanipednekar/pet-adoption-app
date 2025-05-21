@@ -1,44 +1,81 @@
-// src/components/ExistingUser.jsx
-
 import React, { useState } from 'react';
 import '../styles/ExistingUser.css';
 import { useNavigate } from 'react-router-dom';
 
 const ExistingUser = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Replace this with your actual login logic
-   // alert(`Logging in with:\nEmail: ${email}\nPassword: ${password}`);
-    navigate('/pets');
+    setMessage("");
 
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: credentials.email.trim(),
+          password: credentials.password.trim(),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage("✅ Login successful!");
+        navigate("/adoption-list");
+      } else {
+        setMessage(`❌ ${data.error || "Login failed"}`);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setMessage("❌ Server error. Please try again.");
+    }
   };
 
   return (
     <div className="login-container">
-      <h2>Welcome Back! 🐾</h2>
-      <form onSubmit={handleLogin} className="login-form">
-        <label>Email:</label>
-        <input 
-          type="email" 
-          required 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
+      <h2>Login</h2>
+      <form className="login-form" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={credentials.email}
+          onChange={handleChange}
+          required
         />
 
-        <label>Password:</label>
-        <input 
-          type="password" 
-          required 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={credentials.password}
+          onChange={handleChange}
+          required
         />
 
         <button type="submit" className="btn-login">Login</button>
       </form>
+
+      {message && (
+        <p
+          style={{
+            marginTop: "10px",
+            color: message.startsWith("❌") ? "red" : "green",
+          }}
+        >
+          {message}
+        </p>
+      )}
     </div>
   );
 };
